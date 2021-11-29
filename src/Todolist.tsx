@@ -1,21 +1,19 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {filterType} from './App';
 
 type propsType = {
   title: string
   tasks: Array<taskType>
   removeTask: (id:string)=>void
+  filterTasks: (value: filterType)=>void
   addTask: (title: string)=>void
 }
-
-type filterType = 'All' | 'Active' | 'Completed'
-
 
 type taskType = {
   id: string
   title: string
   isDone: boolean
 }
-
 
 export const Todolist = (props: propsType) => {
   const[task, setTask] = useState('')
@@ -35,24 +33,10 @@ export const Todolist = (props: propsType) => {
 	 }
   }
   
-  const [filter, setFilter] = useState('');
-  
-  
-  const filtrator = (value: filterType) => {
-	setFilter(value)
-  }
-  
-  let newTask = props.tasks;
-  if (filter === 'Active') {
-	newTask = props.tasks.filter(t => !t.isDone)
-  }
-  if (filter === 'Completed') {
-	newTask = props.tasks.filter(t => t.isDone)
-  }
-  
   const filterHandler = (value: filterType) => {
-	filtrator(value)
+	props.filterTasks(value)
   }
+  
   return (
 	<div>
 	  <h3>{props.title}</h3>
@@ -61,7 +45,7 @@ export const Todolist = (props: propsType) => {
 		<button onClick={taskHandler}>+</button>
 	  </div>
 	  <ul>
-		{newTask.map((task) => {
+		{props.tasks.map((task) => {
 			return (<li key={task.id}>
 			  <input type="checkbox"
 					 checked={task.isDone}/>

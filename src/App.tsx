@@ -3,6 +3,8 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
+export type filterType = 'All' | 'Active' | 'Completed'
+
 function App() {
   
   const [task1, setTask1] = useState([
@@ -16,19 +18,33 @@ function App() {
 	setTask1(task1.filter(f => f.id !== id));
   }
   
+  const [filter, setFilter] = useState('');
+  
+  
+  const filtrator = (value: filterType) => {
+	setFilter(value)
+  }
+  
+  let newTask = task1;
+  if (filter === 'Active') {
+	newTask = task1.filter(t => !t.isDone)
+  }
+  if (filter === 'Completed') {
+	newTask = task1.filter(t => t.isDone)
+  }
+  
   const addTask = (title:string) => {
-    if(title) {
-	  const addedTask = {id: v1(), title: title, isDone: false}
-	  setTask1([addedTask, ...task1])
-	} else (alert('please fill the field'))
+	const addedTask = {id: v1(), title: title, isDone: false}
+	setTask1([addedTask, ...task1])
   }
   
   
   return (
 	<div className="App">
 	  <Todolist title={'What to eat'}
-				tasks={task1}
+				tasks={newTask}
 				removeTask={remover}
+				filterTasks={filtrator}
 				addTask={addTask}
 	  />
 	</div>
