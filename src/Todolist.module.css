@@ -11,3 +11,8 @@
     color: white;
 }
 
+.task__done {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
