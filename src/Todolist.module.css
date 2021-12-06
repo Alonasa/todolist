@@ -1,0 +1,13 @@
+.error {
+    border: 2px solid red;
+}
+
+.error__message {
+    color: red;
+}
+
+.filter__active {
+    background-color: #575784;
+    color: white;
+}
+

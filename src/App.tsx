@@ -31,11 +31,14 @@ function App() {
 	setTasks(tasks.filter(f => f.id !== id));
   }
   
+  const [error, setError] = useState<string | null>(null)
+  
   const addTask = (title: string) => {
-	if (title) {
-	  const addedTask = {id: v1(), title: title, isDone: false}
+    setError(null)
+	if (title.trim()) {
+	  const addedTask = {id: v1(), title: title.trim(), isDone: false}
 	  setTasks([addedTask, ...tasks])
-	} else (alert('please fill the field'))
+	} else {setError("please fill the field")}
   }
   
   const taskStatus = (tId: string, isDone: boolean) => {
@@ -46,7 +49,6 @@ function App() {
 	setTasks([...tasks])
   }
   
-  
   return (
 	<div className="App">
 	  <Todolist title={'What to eat'}
@@ -55,6 +57,8 @@ function App() {
 				addTask={addTask}
 				filtrator={filtrator}
 				checker={taskStatus}
+				error = {error}
+				filter={filter}
 	  />
 	</div>
   );
