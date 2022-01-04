@@ -25,7 +25,6 @@ export const Todolist = (props: propsType) => {
   
   const changeHandler = (event: ChangeEvent<HTMLInputElement>)=> {
     setTask(event.currentTarget.value);
-    event.currentTarget.setCustomValidity('');
   }
   
   const taskHandler = () => {

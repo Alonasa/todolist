@@ -38,7 +38,9 @@ function App() {
 	if (title.trim()) {
 	  const addedTask = {id: v1(), title: title.trim(), isDone: false}
 	  setTasks([addedTask, ...tasks])
-	} else {setError("please fill the field")}
+	} else {
+	  setError('please fill the field')
+	}
   }
   
   const taskStatus = (tId: string, isDone: boolean) => {
@@ -49,17 +51,32 @@ function App() {
 	setTasks([...tasks])
   }
   
+  type todoListsType = {
+	id: string
+	title: string
+	filter: filterType
+  }
+  
+  let todoLists: Array<todoListsType> = [
+	{id: v1(), title: 'What to read', filter: 'Completed'},
+	{id: v1(), title: 'Product list', filter: 'Active'},
+  ]
+  
   return (
 	<div className="App">
-	  <Todolist title={'What to eat'}
-				tasks={newTask}
-				removeTask={remover}
-				addTask={addTask}
-				filtrator={filtrator}
-				checker={taskStatus}
-				error = {error}
-				filter={filter}
-	  />
+	  {todoLists.map(tl =>
+		<Todolist
+		  key={tl.id}
+		  title={tl.title}
+		  tasks={newTask}
+		  removeTask={remover}
+		  addTask={addTask}
+		  filtrator={filtrator}
+		  checker={taskStatus}
+		  error={error}
+		  filter={tl.filter}
+		/>
+	  )}
 	</div>
   );
 }
