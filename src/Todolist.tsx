@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import styles from './Todolist.module.css';
+import {Input} from './Input/Input';
 
 type propsType = {
   title: string
@@ -23,21 +24,6 @@ type taskType = {
 export const Todolist = (props: propsType) => {
   const[task, setTask] = useState('')
   
-  const changeHandler = (event: ChangeEvent<HTMLInputElement>)=> {
-    setTask(event.currentTarget.value);
-    event.currentTarget.setCustomValidity('');
-  }
-  
-  const taskHandler = () => {
-	props.addTask(task)
-	setTask('')
-  }
-  
-  const keyHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-	  taskHandler()
-	}
-  }
   
   const filterHandler = (value: filterType) => {
 	props.filtrator(value)
@@ -54,11 +40,7 @@ export const Todolist = (props: propsType) => {
   return (
 	<div>
 	  <h3>{props.title}</h3>
-	  <div>
-		<input className={props.error ? styles.error : ''} value={task} onChange={changeHandler} onKeyPress={keyHandler}/>
-		<button onClick={taskHandler}>+</button>
-		{props.error && <div className={styles.error__message}>{props.error}</div>}
-	  </div>
+	  <Input addTask={props.addTask} error={props.error} task={task} setTask={setTask}/>
 	  <ul>
 		{props.tasks.map((task) => {
 			return (<li key={task.id}>
